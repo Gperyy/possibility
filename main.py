@@ -9,7 +9,7 @@ with st.sidebar:
                   icons=["coin", "dice-5-fill", "door-open", "envelope"],
                   menu_icon="cast", default_index=0,
                   orientation="horizontal")
-    selected
+
 #mark_delete
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
@@ -59,17 +59,3 @@ st.markdown("Belirli bir olay A için olasılık P(A) 0 ile 1 arasında değişe
             "açıklaması deneylemelerle limitte göresel çoklukluk (relatif frekans) değerine dayanır.Diğer Bayes-tipi, "
             "özellikle, olasılık açıklamasına göre bu uçsal olasılık değerlerini sübjektif olarak düşünmek ve "
             "olaylara bu değeleri koymak imkan dahilindedir.")
-import os
-import site
-import glob
-
-site_packages = site.getsitepackages()
-for site_package in site_packages:
-    option_menu_js = os.path.join(site_package, "streamlit_option_menu/frontend/dist/js/*.js")
-    js_files = glob.glob(option_menu_js)
-    for js_file in js_files:
-        with open(js_file, "r") as filein:
-            contents = filein.read()
-        mod_contents = contents.replace("href:\"#\"", "href:\"#dummy\"")
-        with open(js_file, "w") as fileout:
-            fileout.write(mod_contents)
