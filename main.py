@@ -1,14 +1,7 @@
 import requests
 import streamlit as st
-from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 
-# menu
-with st.sidebar:
-    selected = option_menu("Main Menu", ["Yazı/Tura", "Zar Simülasyonu", "Monty Hall Oyunu", "Concat"],
-                  icons=["coin", "dice-5-fill", "door-open", "envelope"],
-                  menu_icon="cast", default_index=0,
-                  orientation="horizontal")
 
 #mark_delete
 st.markdown(""" <style>
