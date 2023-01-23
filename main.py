@@ -1,20 +1,32 @@
 import requests
 import streamlit as st
+from streamlit_option_menu import option_menu
 from streamlit_lottie import st_lottie
 
-
-#mark_delete
+# side_menu
+selected = option_menu(
+        menu_title="Main Menu",
+        options=["Olasılık Dünyasına Giriş", "Yazı/Tura", "Zar Simülasyonu", "Monty Hall Oyunu", "İletişim"],
+        default_index=0,
+        icons=["book", "coin", "dice-3", "door-open", "envelope"],
+        orientation="horizontal",
+    )
+# mark_delete
 st.markdown(""" <style>
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 </style> """, unsafe_allow_html=True)
 
 
+# menu bar
+
 def load_lottieurl(url: str) -> object:
     r = requests.get(url)
     if r.status_code != 200:
         return None
     return r.json()
+
+
 # ana baslik
 st.title('OLASILIK DÜNYASINA GİRİŞ 🧮 ')
 # alt baslik
