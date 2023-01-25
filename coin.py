@@ -2,19 +2,26 @@ import random
 import matplotlib.pyplot as plt
 import numpy as np
 
-print("Welcome to the coin toss simulation!")
-num_tosses = int(input("How many times would you like to toss the coin? "))
 
-tosses = []
-for i in range(num_tosses):
-    tosses.append(random.choice(['Heads', 'Tails']))
+class CoinFlipSimulation:
+    def __init__(self, num_flips):
+        self.num_flips = num_flips
+        self.face_count = [0, 0]
+        self.probabilities = {}
 
-plt.hist(tosses, bins=['Heads', 'Tails'], density=True)
+    @property
+    def run_simulation(self):
+        for i in range(self.num_flips):
+            flip = random.randint(0, 1)
+            self.face_count[flip] += 1
+        self.probabilities = {'heads': self.face_count[0] / self.num_flips, 'tails': self.face_count[1] / self.num_flips}
+        return self.probabilities
 
-# Calculate and plot normal distribution
-mean = 0.5  # Assume fair coin
-stddev = np.sqrt(mean * (1 - mean))  # Standard deviation for binomial distribution
-x = np.linspace(0, 1, 100)
-plt.plot(x, 1/(stddev * np.sqrt(2 * np.pi)) * np.exp( - (x - mean)**2 / (2 * stddev**2) ), linewidth=2)
+    @property
+    def plot_normal_distribution(self):
+        mu, std = np.mean(list(self.probabilities.values())), np.std(list(self.probabilities.values()))
+        s = np.random.normal(mu, std, 1000)
+        return s
 
-plt.show()
+a = CoinFlipSimulation(100)
+a.plot_normal_distribution
