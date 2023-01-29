@@ -1,15 +1,15 @@
+import shutil
+from pathlib import Path
+
+import fig as fig
+import numpy as np
 import requests
 import streamlit as st
 from matplotlib import pyplot as plt
-from streamlit_option_menu import option_menu
+from pygments.lexers import go
 from streamlit_lottie import st_lottie
-
-import shutil
-import math
-from pathlib import Path
-from coin import CoinFlipSimulation
-import plotly.figure_factory as ff
-import numpy as np
+from streamlit_option_menu import option_menu
+from coin import CoinTossSimulation
 
 
 def move_font_files():
@@ -125,21 +125,13 @@ if selected == "Yazı/Tura":
         quality="low",  # medium ; high
         height=300
     )
+    #num_tosses = st.slider('Kaç kere para atmak istediğinizi seçiniz', 1, 100)
+    num_tosses = st.number_input("Kaç Kez para atmak istersiniz? :coin:", format="%d", min_value=1)
+    sim = CoinTossSimulation(num_tosses)
+    simulation_result = sim.run_simulation
+    heads, tails = simulation_result[0], simulation_result[1]
 
-    num_flips = st.slider('Kaç kere para atmak istediğinizi seçiniz', 1, 100)
-    sim1 = CoinFlipSimulation(num_flips)
-    simulation_result = sim1.run_simulation
-    heads, tails = simulation_result.get("heads"), simulation_result.get("tails")
-    st.write("Simulasyon Sonuclari:")
-    st.success(f"heads {heads}")
-    st.success(f"tails: {tails}")
-    st.warning(f"sum: {[heads + tails]}")
-
-    arr = sim1.plot_normal_distribution
-    fig, ax = plt.subplots()
-    ax.hist(arr, bins=20)
-
-    st.pyplot(fig)
+    st.plotly_chart(sim.plot_result)
 
 if selected == "Zar Simülasyonu":
     st.title(f"You have selected {selected}")

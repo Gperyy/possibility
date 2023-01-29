@@ -53,3 +53,5 @@ validators==0.20.0
 zipp==3.11.0
 
 plotly~=5.13.0
+self~=2020.12.3
+fig~=1.0.1

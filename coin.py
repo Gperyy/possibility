@@ -1,28 +1,46 @@
 import random
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import self as self
 import streamlit as st
+from pygments.lexers import go
+import numpy as np
+import plotly.graph_objects as go
+import streamlit as st
+from matplotlib import pyplot as plt
 
 
-class CoinFlipSimulation:
-    def __init__(self, num_flips):
-        self.num_flips = num_flips
-        self.face_count = [0, 0]
+class CoinTossSimulation:
+    def __init__(self, num_tosses):
+        self.num_tosses = num_tosses
+        self.p = 0.5
+        self.results = np.random.binomial(1, self.p, self.num_tosses)
+        self.proportion_heads = np.cumsum(self.results) / np.arange(1, self.num_tosses + 1)
+        self.proportion_tails = 1 - self.proportion_heads
         self.probabilities = {}
 
     @property
-    def run_simulation(self):
-        for i in range(self.num_flips):
-            flip = random.randint(0, 1)
-            self.face_count[flip] += 1
-        self.probabilities = {'heads': self.face_count[0] / self.num_flips, 'tails': self.face_count[1] / self.num_flips}
-        return self.probabilities
+    def run_simulation(self) -> List:
+        results = np.random.binomial(1, self.p, self.num_tosses)
+        proportion_heads = np.cumsum(results) / np.arange(1, self.num_tosses + 1)
+        proportion_tails = 1 - proportion_heads
+        result = [proportion_heads, proportion_tails]
+        return result
 
     @property
-    def plot_normal_distribution(self):
-        mu, std = np.mean(list(self.probabilities.values())), np.std(list(self.probabilities.values()))
-        s = np.random.normal(mu, std, 1000)
-        return s
+    def plot_result(self):
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=np.arange(1, self.num_tosses + 1), y=self.proportion_heads,
+                                 mode='lines+markers',
+                                 name='Proportion of heads'))
 
-a = CoinFlipSimulation(100)
-a.plot_normal_distribution
+        fig.add_trace(go.Scatter(x=np.arange(1, self.num_tosses + 1), y=self.proportion_tails,
+                                 mode='lines+markers',
+                                 name='Proportion of tails'))
+
+        fig.update_layout(title='Comparison of proportion of heads and tails in coin tosses',
+                          xaxis_title='Number of tosses',
+                          yaxis_title='Proportion')
+
+        return fig
