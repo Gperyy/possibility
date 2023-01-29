@@ -121,7 +121,7 @@ if selected == "Yazı/Tura":
         height=300
     )
 
-    num_tosses = st.number_input("Kaç Kez para atmak istersiniz? :coin:", format="%d", min_value=1)
+    num_tosses = st.number_input("Kaç Kez para atmak istersiniz? :coin:", format="%d", min_value=1, max_value=1000)
     sim = CoinTossSimulation(num_tosses)
     simulation_result = sim.run_simulation
     heads, tails = simulation_result[0], simulation_result[1]
