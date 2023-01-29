@@ -1,12 +1,7 @@
 import shutil
 from pathlib import Path
-
-import fig as fig
-import numpy as np
 import requests
 import streamlit as st
-from matplotlib import pyplot as plt
-from pygments.lexers import go
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 from coin import CoinTossSimulation
@@ -125,7 +120,7 @@ if selected == "Yazı/Tura":
         quality="low",  # medium ; high
         height=300
     )
-    #num_tosses = st.slider('Kaç kere para atmak istediğinizi seçiniz', 1, 100)
+
     num_tosses = st.number_input("Kaç Kez para atmak istersiniz? :coin:", format="%d", min_value=1)
     sim = CoinTossSimulation(num_tosses)
     simulation_result = sim.run_simulation

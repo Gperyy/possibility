@@ -1,14 +1,6 @@
-import random
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-import self as self
-import streamlit as st
 from pygments.lexers import go
 import numpy as np
 import plotly.graph_objects as go
-import streamlit as st
-from matplotlib import pyplot as plt
 
 
 class CoinTossSimulation:
@@ -21,7 +13,7 @@ class CoinTossSimulation:
         self.probabilities = {}
 
     @property
-    def run_simulation(self) -> List:
+    def run_simulation(self):
         results = np.random.binomial(1, self.p, self.num_tosses)
         proportion_heads = np.cumsum(results) / np.arange(1, self.num_tosses + 1)
         proportion_tails = 1 - proportion_heads
