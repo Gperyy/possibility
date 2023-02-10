@@ -38,9 +38,9 @@ font-family: 'Montserrat'
 # option menu
 selected = option_menu(
     menu_title="Main Menu",
-    options=["Olasılık Dünyası", "Yazı/Tura", "Zar Simülasyonu", "Monty Hall Oyunu", "İletişim"],
+    options=["Olasılık Dünyası", "Temel Olasılık", "Yazı/Tura", "Zar Simülasyonu", "Monty Hall Oyunu", "İletişim"],
     default_index=0,
-    icons=["book", "coin", "dice-3", "door-open", "envelope"],
+    icons=["book", "hand-index", "coin", "dice-3", "door-open", "envelope"],
     orientation="horizontal",
 )
 if selected == "Olasılık Dünyası":
@@ -87,6 +87,57 @@ if selected == "Olasılık Dünyası":
              "açıklaması deneylemelerle limitte göresel çoklukluk (relatif frekans) değerine dayanır.Diğer Bayes-tipi, "
              "özellikle, olasılık açıklamasına göre bu uçsal olasılık değerlerini sübjektif olarak düşünmek ve "
              "olaylara bu değeleri koymak imkan dahilindedir.")
+if selected == "Temel Olasılık":
+    st.markdown('**“THE WORLD IS AN UNCERTAIN PLACE”**')
+    st.write("Bu bölüm olasılık teorisinin temel kavramlarını tanıtmak amaçlıdır.")
+    st.write("Yarınki hava durumu gibi sıradan görünen bir şey hakkında tahminlerde "
+             "bulunmak gerçekten de zor bir iştir. Modern zamanların en gelişmiş bilgisayarları ve modelleriyle bile "
+             "meteoroloji uzmanları yarın yağmur yağıp yağmayacağını kesin olarak söyleyemezler. Yapabilecekleri en "
+             "iyi şey, yarın yağmur yağma olasılığına ilişkin en iyi tahminlerini vermektir. Örneğin, meteoroloji "
+             "uzmanları yarın yağmur yağacağından oldukça eminlerse, yağmur yağma ihtimalinin %90 olduğunu "
+             "söyleyebilirler. Muhtemelen hayatınız boyunca bu tür ifadeler duymuşsunuzdur, ancak yağmur olasılığının "
+             "%90 olduğunu söylediklerinde bunun tam olarak ne anlama geldiğini hiç merak ettiniz mi? ")
+
+
+    # animasyon
+    def load_lottieurl(url: str) -> object:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+
+
+    lottie_think = load_lottieurl("https://assets8.lottiefiles.com/packages/lf20_o18imdcr.json")
+    st_lottie(
+        lottie_think,
+        speed=1,
+        reverse=False,
+        loop=True,
+        quality="low",  # medium ; high
+        height=350
+    )
+    st.subheader(':blue[Şans Oyunları]')
+    st.write("Şans olaylarının mantıksal olarak tutarlı bir şekilde analiz edilmesini sağlayan matematiksel temel, "
+             "olasılık teorisi olarak bilinir. Bir olayın olasılığı, o olayın gerçekleşmesinin ne kadar muhtemel "
+             "olduğunun sayısal bir göstergesidir. Bu değer her zaman 0 ve 1 aralığındadır; 0 imkansızlığı, "
+             "1 ise güveni ifade eder. İki potansiyel sonucu yazı veya tura olan adil bir yazı tura, olasılıksal bir "
+             "deneyin klasik bir örneğidir. Bu durumda yazı tura atma olasılığı 50/50'ye eşittir. Gerçek bir yazı "
+             "tura atma kümesinde tam olarak %50'den daha fazla ya da daha az tura gelebilir. Ancak, daha fazla yazı "
+             "tura atıldığında, uzun vadede tura gelme sıklığı kaçınılmaz olarak %50'ye yaklaşacaktır.Adil olmayan "
+             "veya ağırlıklı bir madeni para için iki sonuç eşit olasılıkta değildir.Sonuçlara sayılar atarsak - "
+             "örneğin yazı için 1, tura için 0 - o zaman rastgele değişken olarak bilinen matematiksel nesneyi "
+             "yaratmış oluruz.")
+    st.subheader(':orange[Beklenti]')
+    st.write("Rastgele bir değişkenin beklentisi, bu rastgele değişkenin dağılımının merkezini yakalamaya çalışan bir "
+             "sayıdır. Verilen dağılımdan alınan birçok bağımsız örneğin uzun dönemli ortalaması olarak "
+             "yorumlanabilir. Daha açık bir ifadeyle, rastgele değişkenin desteğindeki tüm olası değerlerin olasılık "
+             "ağırlıklı toplamı olarak tanımlanır,")
+    st.latex("{E}[X] = \sum_{x \in \mathcal{▢}}xP(x)")
+    st.subheader(':green[Varyans]')
+    st.write("Beklenti bir merkezilik ölçüsü sağlarken, rastgele bir değişkenin varyansı o rastgele değişkenin "
+             "dağılımının yayılımını ölçer. Varyans, rastgele değişken ile beklentisi arasındaki karesel farkın "
+             "ortalama değeridir.")
+    st.latex("{Var}(X) = {E}[(X -{E}[X])^2]")
 
 if selected == "Yazı/Tura":
     st.subheader("Yazı/Tura Deneyleri 🪙")
