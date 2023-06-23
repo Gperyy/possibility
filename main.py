@@ -1,10 +1,13 @@
 import shutil
 from pathlib import Path
+
 import requests
+
 import streamlit as st
 from streamlit_lottie import st_lottie
 from streamlit_option_menu import option_menu
 from coin import CoinTossSimulation
+from dice import DiceRollerSimulation
 
 
 def move_font_files():
@@ -98,7 +101,6 @@ if selected == "Temel Olasılık":
              "söyleyebilirler. Muhtemelen hayatınız boyunca bu tür ifadeler duymuşsunuzdur, ancak yağmur olasılığının "
              "%90 olduğunu söylediklerinde bunun tam olarak ne anlama geldiğini hiç merak ettiniz mi? ")
 
-
     # animasyon
     def load_lottieurl(url: str) -> object:
         r = requests.get(url)
@@ -132,7 +134,7 @@ if selected == "Temel Olasılık":
              "sayıdır. Verilen dağılımdan alınan birçok bağımsız örneğin uzun dönemli ortalaması olarak "
              "yorumlanabilir. Daha açık bir ifadeyle, rastgele değişkenin desteğindeki tüm olası değerlerin olasılık "
              "ağırlıklı toplamı olarak tanımlanır,")
-    st.latex("{E}[X] = \sum_{x \in \mathcal{▢}}xP(x)")
+    st.latex("{E}[X] = \sum_{x \in \mathcal{\square}}xP(x)")
     st.subheader(':green[Varyans]')
     st.write("Beklenti bir merkezilik ölçüsü sağlarken, rastgele bir değişkenin varyansı o rastgele değişkenin "
              "dağılımının yayılımını ölçer. Varyans, rastgele değişken ile beklentisi arasındaki karesel farkın "
@@ -172,7 +174,8 @@ if selected == "Yazı/Tura":
         height=300
     )
 
-    num_tosses = st.number_input("Kaç Kez para atmak istersiniz? :coin:", format="%d", min_value=1, max_value=1000)
+    num_tosses = st.number_input("**:orange[Kaç kez para atmak istersiniz? :coin:]**", format="%d", min_value=1,
+                                 max_value=1000)
     sim = CoinTossSimulation(num_tosses)
     simulation_result = sim.run_simulation
     heads, tails = simulation_result[0], simulation_result[1]
@@ -180,8 +183,59 @@ if selected == "Yazı/Tura":
     st.plotly_chart(sim.plot_result)
 
 if selected == "Zar Simülasyonu":
-    st.title(f"You have selected {selected}")
+    st.write("Küp, her bir yüzünde işaretler bulunan bir katıdır. Yüzlerin hepsi genellikle aynı şekildedir, "
+             "bu nedenle Platonik katılar ve Arşimet ikilileri bariz seçeneklerdir. Zar, havaya atılarak ve "
+             "yüzlerinden birinin üzerinde durması sağlanarak yuvarlanabilir. Zar, birçok şans oyununda üzerine bahis "
+             "oynanacak rastgele sayıları seçmek için, tahta veya rol yapma oyunlarında ise hareket edilecek kare "
+             "sayısını, bir çatışmanın sonucunu vb. belirlemek için kullanılır. Madeni para, kalıbın dejenere olmuş 2 "
+             "taraflı bir çeşidi olarak düşünülebilir.")
+    st.write("Mozart 1787 yılında bir müzikal kompozisyon zar oyunu için boyutları ve talimatları yazmıştır. Buradaki "
+             "fikir, bir Minuet (Chuang) oluşturmak için önceden hazırlanmış müzik ölçülerini kesip yapıştırmaktır.")
+    # video_file = open('/Users/peri/Desktop/ezgif-1-9f91e39007.mp4', 'rb')
+    # video_bytes = video_file.read()
+    # st.video(video_bytes)
+    # st.markdown(":red[**_Video credit: Blanca Martinez & Joe Sparkes_**]")
+
+    st.write('En yaygın zar türü, kenarlarında 1-6 sayıları bulunan altı yüzlü bir zardır. Atılan zarın değeri '
+             'üstündeki "nokta" sayısı ile gösterilir. Altı yüzlü bir zarda, karşılıklı kenarlar, toplam her zaman '
+             'yedi olacak şekilde düzenlenmiştir. Bu, 1, 2 ve 3 sayılarının bir köşenin etrafında saat yönünde veya '
+             'saat yönünün tersine dizilebildiği iki olası ayna görüntüsü düzenlemesiyle sonuçlanır. Ticari zarlar '
+             'aslında her iki yöne de sahip olabilir. Yukarıdaki çizimler, küpün merkezine doğru üçlü dönme ekseni '
+             'boyunca bakıldığında saat yönünün tersine veya saat yönünde düzenlemelere sahip 6 yüzlü küpleri '
+             'göstermektedir.')
+    # animasyon
+
+    def load_lottieurl(url: str) -> object:
+        r = requests.get(url)
+        if r.status_code != 200:
+            return None
+        return r.json()
+
+
+    lottie_dice = load_lottieurl("https://assets6.lottiefiles.com/packages/lf20_Wy80jjKz4n.json")
+    st_lottie(
+        lottie_dice,
+        speed=1,
+        reverse=False,
+        loop=True,
+        quality="low",  # medium ; high
+        height=200
+    )
+
+    num_rolls = st.number_input("**:orange[Kaç kaz zar atmak istiyorsunuz?🎲]**", format="%d", min_value=1,
+                                max_value=1000)
+    dice_roller = DiceRollerSimulation(num_rolls)
+    simulate_rolls = dice_roller.simulate_rolls
+    dice_roller.simulate_rolls()
+    st.plotly_chart(dice_roller.plot_results())
+
 if selected == "Monty Hall Oyunu":
-    st.title(f"You have selected {selected}")
+    st.write("Televizyon sunucusu Monty, Monty Hall bilmecesinde katılımcıya üç kapı sunar. Kapılardan biri araba "
+             "gibi kazançlı bir ödülü saklarken, diğerleri keçi gibi daha az arzu edilen bir ödülü saklar.Kendinizi "
+             "gösterideki bir aktör olarak düşünmelisiniz. Üç kapıdan birini seçiyorsunuz. Monty önce arkasında "
+             "keçilerden birinin saklanacağı başka bir kapıyı açar. Şimdi geriye iki kapı kalıyor, bunlardan biri "
+             "araba diğeri keçi olabilir.Monty daha sonra size henüz açık olmayan diğer kapıyı seçme veya ilk kapıda "
+             "kalma seçeneği sunuyor.Cevabınızı diğer kapıya çevirmek sizin lehinize mi? Olasılık öyle olduğunu "
+             "söylüyor!")
 if selected == "İletişim":
     st.title(f"You have selected {selected}")

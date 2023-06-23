@@ -25,14 +25,15 @@ class CoinTossSimulation:
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=np.arange(1, self.num_tosses + 1), y=self.proportion_heads,
                                  mode='lines+markers',
-                                 name='Proportion of heads'))
+                                 name='Tura Gelme Olasılığı'))
 
         fig.add_trace(go.Scatter(x=np.arange(1, self.num_tosses + 1), y=self.proportion_tails,
                                  mode='lines+markers',
-                                 name='Proportion of tails'))
+                                 name='Yazı Gelme Olasılığı'))
 
-        fig.update_layout(title='Comparison of proportion of heads and tails in coin tosses',
-                          xaxis_title='Number of tosses',
-                          yaxis_title='Proportion')
+        fig.update_layout(title='Yazı/Tura Gelme Olasılığının Karşılaştırılması',
+                          xaxis_title='Atış Sayısı',
+                          yaxis_title='Gözlemlenen Sonuçlar')
 
         return fig
+
